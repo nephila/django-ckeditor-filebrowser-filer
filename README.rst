@@ -5,12 +5,6 @@ django-ckeditor-filebrowser-filer
 .. image:: https://badge.fury.io/py/django-ckeditor-filebrowser-filer.png
     :target: https://badge.fury.io/py/django-ckeditor-filebrowser-filer
 
-.. image:: https://travis-ci.org/nephila/django-ckeditor-filebrowser-filer.png?branch=master
-    :target: https://travis-ci.org/nephila/django-ckeditor-filebrowser-filer
-
-.. image:: https://coveralls.io/repos/nephila/django-ckeditor-filebrowser-filer/badge.png?branch=master
-    :target: https://coveralls.io/r/nephila/django-ckeditor-filebrowser-filer?branch=master
-
 A django-filer based CKEditor filebrowser
 
 Documentation
