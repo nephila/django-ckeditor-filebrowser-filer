@@ -41,6 +41,7 @@ output/*/index.html
 # Sphinx
 docs/_build
 
+# Temporary exclusion
 tox.ini
 .travis.yml
 runtests.py
