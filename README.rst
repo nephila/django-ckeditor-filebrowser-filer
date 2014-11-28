@@ -5,15 +5,16 @@ django-ckeditor-filebrowser-filer
 .. image:: https://badge.fury.io/py/django-ckeditor-filebrowser-filer.png
     :target: https://badge.fury.io/py/django-ckeditor-filebrowser-filer
 
-A django-filer based CKEditor filebrowser
+A django-filer based CKEditor filebrowser for **django CMS**
 
 Documentation
 -------------
 
-A CKEditor filebrowser based on `django-filer`_
+A CKEditor filebrowser based on `django-filer`_ and `django CMS`_
 
 Origin code is taken from `django-ckeditor-filer`_
 
+.. _django CMS: https://pypi.python.org/pypi/django-cms
 .. _django-filer: https://pypi.python.org/pypi/django-filer
 .. _django-ckeditor-filer: https://github.com/ikresoft/django-ckeditor-filer/
 
