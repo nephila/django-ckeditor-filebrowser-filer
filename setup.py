@@ -41,7 +41,7 @@ setup(
     ],
     license="BSD",
     zip_safe=False,
-    keywords='django-ckeditor-filebrowser-filer',
+    keywords='django-ckeditor-filebrowser-filer, django, filer, ckeditor, filebrowser',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Framework :: Django',
