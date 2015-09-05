@@ -27,12 +27,12 @@ CKEDITOR.plugins.add( 'filerimage', {
                 }
             });
         }
-
+        CKEDITOR.scriptLoader.load( this.path + '../../../../filer/js/popup_handling.js' );
         CKEDITOR.dialog.add( 'filerImageDialog', this.path + 'dialogs/filerImageDialog.js' );
 
         var dialog = CKEDITOR.dialog.getCurrent();
 
-        $.get('/filebrowser_filer/url_reverse/', { url_name: "admin:filer-directory_listing-last"}, function(data) {
+        jQuery.get('/filebrowser_filer/url_reverse/', { url_name: "admin:filer-directory_listing-last"}, function(data) {
             
         });
     }

@@ -26,7 +26,6 @@ def url_reverse(request):
     return http.HttpResponseNotAllowed(('GET', 'POST'))
 
 
-
 def url_image(request, image_id, thumb_options=None, width=None, height=None):
     """
     Converts a filer image ID in a complete path
@@ -61,6 +60,7 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
         'height': image.height,
     }
     return http.HttpResponse(json.dumps(data), content_type="application/json")
+
 
 def thumbnail_options(request):
     """

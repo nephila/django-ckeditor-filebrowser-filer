@@ -29,15 +29,15 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			height = 0;
 		if (thumb_sel_val != 0) {
 			thumb_opt_id = thumb_sel_val + '/';
-			server_url = base_ckeditor + '/url_image/' + $('#id_image').val() + '/' + thumb_opt_id;
+			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + thumb_opt_id;
 		} else {
 			width = dialog.getContentElement("tab-basic", "width").getValue();
 			if (width == "") width = ''; else width += '/';
 			height = dialog.getContentElement("tab-basic", "height").getValue();
 			if (height == "") height = ''; else height += '/';
-			server_url = base_ckeditor + '/url_image/' + $('#id_image').val() + '/' + width + height;
+			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + width + height;
 		}
-		$.get(server_url, function (data) {
+		jQuery.get(server_url, function (data) {
 			url.setValue(data.url);
 			imageWidth = data.width;
 			imageHeight = data.height;
@@ -141,11 +141,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 							'<label for="id_image">' + commonLang.image + ':</label>' +
 							'<img alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image_thumbnail_img">' +
 							'&nbsp;<span id="id_image_description_txt"></span>' +
-							'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image" class="related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
+							'<a style="text-indent: 0;" onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image" class="related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
 							'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +
 							'</a>' +
 							'<img width="10" height="10" style="display: none;" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image_clear">' +
-							'<br><input type="text" id="id_image" name="image" class="vForeignKeyRawIdAdminField">' +
+							'<br><input type="hidden" id="id_image" name="image" class="vForeignKeyRawIdAdminField">' +
 							'</div></div>'
 					},
 					{
@@ -208,15 +208,15 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 								],
 								onLoad: function () {
 									var element_id = '#' + this.getInputElement().$.id;
-									$.ajax({
+									jQuery.ajax({
 										type: 'GET',
 										url: base_ckeditor + '/thumbnail_options/',
 										contentType: 'application/json; charset=utf-8',
 										dataType: 'json',
 										async: false,
 										success: function (data) {
-											$.each(data, function (index, item) {
-												$(element_id).get(0).options[$(element_id).get(0).options.length] = new Option(item.name, item.id);
+											jQuery.each(data, function (index, item) {
+												jQuery(element_id).get(0).options[jQuery(element_id).get(0).options.length] = new Option(item.name, item.id);
 											});
 										},
 										error: function (xhr, ajaxOptions, thrownError) {
