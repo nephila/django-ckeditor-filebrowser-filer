@@ -54,9 +54,9 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			dialog = CKEDITOR.dialog.getCurrent();
 			var document = this.getElement().getDocument(),
 				id_image = document.getById('id_image'),
-				oldVal = id_image.getValue(),
-				id_image_thumbnail_img = '',
-				id_image_description_txt = '';
+				id_image_description_txt = document.getById('id_image_description_txt'),
+				id_image_thumbnail_img = document.getById('id_image_thumbnail_img'),
+				oldVal = id_image.getValue();
 
 			setInterval(function () {
 				if (oldVal != id_image.getValue()) {
@@ -71,9 +71,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			id_image_clear.on('click', function () {
 				id_image.setValue("");
 				id_image.removeAttribute("value");
-				id_image_thumbnail_img = document.getById('id_image_thumbnail_img');
 				id_image_thumbnail_img.setAttribute("src", nofile_icon);
-				id_image_description_txt = document.getById('id_image_description_txt');
 				id_image_description_txt.setHtml("");
 				id_image_clear = document.getById('id_image_clear');
 				id_image_clear.hide();
