@@ -41,6 +41,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			url.setValue(data.url);
 			imageWidth = data.width;
 			imageHeight = data.height;
+			id_image_thumbnail_img.setAttribute("src", data.url);
 		});
 	}
 
@@ -101,6 +102,8 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			// Store the reference to the <img> element in an internal property, for later use.
 			this.element = element;
 
+			id_image.setValue(element.getAttribute('filer_id'));
+
 			// Invoke the setup methods of all dialog elements, so they can load the element attributes.
 			if (!this.insertMode)
 				this.setupContent(this.element);
@@ -139,7 +142,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						type: 'html',
 						html: '<div class="field-box field-image" style="display:table-cell; vertical-align: middle"><div>' +
 							'<label for="id_image">' + commonLang.image + ':</label>' +
-							'<img alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image_thumbnail_img">' +
+							'<img width="48" height="48" style="width:48px;" alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image_thumbnail_img">' +
 							'&nbsp;<span id="id_image_description_txt"></span>' +
 							'<a style="text-indent: 0;" onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image" class="related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
 							'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +

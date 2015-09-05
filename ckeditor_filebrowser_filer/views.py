@@ -7,6 +7,7 @@ from django.core import urlresolvers
 from cmsplugin_filer_image.models import ThumbnailOption
 from filer.models.imagemodels import Image
 
+
 def url_reverse(request):
     """
     Reverse the requested URL (passed via GET / POST as `url_name` parameter)
