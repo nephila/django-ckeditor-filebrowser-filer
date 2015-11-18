@@ -39,7 +39,7 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
     :return: JSON serialized URL components ('url', 'width', 'height')
     """
     image = Image.objects.get(pk=image_id)
-    if getattr(image, 'canonical_url'):
+    if getattr(image, 'canonical_url', None):
         url = image.canonical_url
     else:
         url = image.url
