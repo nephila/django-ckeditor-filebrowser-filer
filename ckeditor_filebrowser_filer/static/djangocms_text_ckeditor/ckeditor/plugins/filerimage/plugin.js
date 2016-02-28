@@ -2,6 +2,7 @@ CKEDITOR.plugins.add( 'filerimage', {
     lang: 'en,it',
     icons: 'filerimage',
     init: function( editor ) {
+        that = this,
 		lang = editor.lang.filerimage,
     	editor.addCommand( 'filerImageDialog', new CKEDITOR.dialogCommand( 'filerImageDialog' ) );
 
@@ -27,12 +28,22 @@ CKEDITOR.plugins.add( 'filerimage', {
                 }
             });
         }
-        CKEDITOR.scriptLoader.load( this.path + '../../../../filer/js/popup_handling.js' );
-        CKEDITOR.dialog.add( 'filerImageDialog', this.path + 'dialogs/filerImageDialog.js' );
+        jQuery.get('/filebrowser_filer/filer_version/', { }, function(data) {
+            if(data == '1.1') {
+                CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/addons/popup_handling.js' );
+            }
+            else if(data == '1.0') {
+                CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/popup_handling.js' );
+            }
+            CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
+        });
 
         var dialog = CKEDITOR.dialog.getCurrent();
 
-        jQuery.get('/filebrowser_filer/url_reverse/', { url_name: 'admin:filer-directory_listing-last'}, function(data) {
+        jQuery.get(
+            '/filebrowser_filer/url_reverse/',
+            { url_name: 'admin:filer-directory_listing-last' },
+            function(data) {
             
         });
     }
