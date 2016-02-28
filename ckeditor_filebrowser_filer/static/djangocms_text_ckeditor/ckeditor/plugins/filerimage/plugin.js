@@ -29,14 +29,13 @@ CKEDITOR.plugins.add( 'filerimage', {
             });
         }
         jQuery.get('/filebrowser_filer/filer_version/', { }, function(data) {
-            if(data == '1') {
+            if(data == '1.1') {
                 CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/addons/popup_handling.js' );
-                CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
             }
-            else {
+            else if(data == '1.0') {
                 CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/popup_handling.js' );
-                CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
             }
+            CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
         });
 
         var dialog = CKEDITOR.dialog.getCurrent();
