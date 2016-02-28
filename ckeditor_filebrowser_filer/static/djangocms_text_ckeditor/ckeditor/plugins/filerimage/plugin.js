@@ -32,7 +32,7 @@ CKEDITOR.plugins.add( 'filerimage', {
 
         var dialog = CKEDITOR.dialog.getCurrent();
 
-        jQuery.get('/filebrowser_filer/url_reverse/', { url_name: "admin:filer-directory_listing-last"}, function(data) {
+        jQuery.get('/filebrowser_filer/url_reverse/', { url_name: 'admin:filer-directory_listing-last'}, function(data) {
             
         });
     }
