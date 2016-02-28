@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from distutils.version import LooseVersion
 
 from django import http
 from django.core import urlresolvers 
@@ -9,6 +10,12 @@ try:
     from filer.models import ThumbnailOption
 except ImportError:
     from cmsplugin_filer_image.models import ThumbnailOption
+
+
+def filer_version(request):
+    import filer
+    filer_legacy = LooseVersion(filer.__version__) < LooseVersion('1.1')
+    return http.HttpResponse('0' if filer_legacy else '1')
 
 
 def url_reverse(request):
