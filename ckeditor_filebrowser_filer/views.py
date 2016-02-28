@@ -3,9 +3,12 @@ import json
 
 from django import http
 from django.core import urlresolvers 
+from filer.models import Image
 
-from cmsplugin_filer_image.models import ThumbnailOption
-from filer.models.imagemodels import Image
+try:
+    from filer.models import ThumbnailOption
+except ImportError:
+    from cmsplugin_filer_image.models import ThumbnailOption
 
 
 def url_reverse(request):
@@ -21,9 +24,9 @@ def url_reverse(request):
         try: 
             path = urlresolvers.reverse(url_name, args=data.getlist('args')) 
             (view_func, args, kwargs) = urlresolvers.resolve(path)
-            return http.HttpResponse(path, content_type="text/plain")
+            return http.HttpResponse(path, content_type='text/plain')
         except urlresolvers.NoReverseMatch: 
-            return http.HttpResponse("Error", content_type="text/plain")
+            return http.HttpResponse('Error', content_type='text/plain')
     return http.HttpResponseNotAllowed(('GET', 'POST'))
 
 
@@ -63,7 +66,7 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
         'width': image.width,
         'height': image.height,
     }
-    return http.HttpResponse(json.dumps(data), content_type="application/json")
+    return http.HttpResponse(json.dumps(data), content_type='application/json')
 
 
 def thumbnail_options(request):

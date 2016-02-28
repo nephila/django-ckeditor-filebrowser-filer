@@ -21,9 +21,9 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 		nofile_icon = base_static + '/filer/icons/nofile_48x48.png';
 
 	function getImageUrl() {
-		var url = dialog.getContentElement("tab-basic", "url"),
-			thumb_opt_id = "",
-			thumb_sel_val = dialog.getContentElement("tab-basic", "thumbnail_option").getValue(),
+		var url = dialog.getContentElement('tab-basic', 'url'),
+			thumb_opt_id = '',
+			thumb_sel_val = dialog.getContentElement('tab-basic', 'thumbnail_option').getValue(),
 			server_url = '',
 			width = 0,
 			height = 0;
@@ -31,17 +31,17 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			thumb_opt_id = thumb_sel_val + '/';
 			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + thumb_opt_id;
 		} else {
-			width = dialog.getContentElement("tab-basic", "width").getValue();
-			if (width == "") width = ''; else width += '/';
-			height = dialog.getContentElement("tab-basic", "height").getValue();
-			if (height == "") height = ''; else height += '/';
+			width = dialog.getContentElement('tab-basic', 'width').getValue();
+			if (width == '') width = ''; else width += '/';
+			height = dialog.getContentElement('tab-basic', 'height').getValue();
+			if (height == '') height = ''; else height += '/';
 			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + width + height;
 		}
 		jQuery.get(server_url, function (data) {
 			url.setValue(data.url);
 			imageWidth = data.width;
 			imageHeight = data.height;
-			id_image_thumbnail_img.setAttribute("src", data.url);
+			id_image_thumbnail_img.setAttribute('src', data.url);
 		});
 	}
 
@@ -69,10 +69,10 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			var id_image_clear = document.getById('id_image_clear');
 
 			id_image_clear.on('click', function () {
-				id_image.setValue("");
-				id_image.removeAttribute("value");
-				id_image_thumbnail_img.setAttribute("src", nofile_icon);
-				id_image_description_txt.setHtml("");
+				id_image.setValue('');
+				id_image.removeAttribute('value');
+				id_image_thumbnail_img.setAttribute('src', nofile_icon);
+				id_image_description_txt.setHtml('');
 				id_image_clear = document.getById('id_image_clear');
 				id_image_clear.hide();
 			});
@@ -121,7 +121,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			var document = this.getElement().getDocument();
 			// document = CKEDITOR.dom.document
 			var id_image = document.getById('id_image');
-			img.setAttribute("filer_id", id_image.getValue());
+			img.setAttribute('filer_id', id_image.getValue());
 
 			// Invoke the commit methods of all dialog elements, so the <img> element gets modified.
 			this.commitContent(img);
@@ -154,11 +154,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						id: 'url',
 						label: lang.url,
 						setup: function (element) {
-							this.setValue(element.getAttribute("src"));
+							this.setValue(element.getAttribute('src'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute("src", this.getValue());
+							element.setAttribute('src', this.getValue());
 						}
 					},
 					{
@@ -166,11 +166,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						id: 'caption',
 						label: lang.caption,
 						setup: function (element) {
-							this.setValue(element.getAttribute("title"));
+							this.setValue(element.getAttribute('title'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute("title", this.getValue());
+							element.setAttribute('title', this.getValue());
 						}
 					},
 					{
@@ -178,11 +178,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						id: 'alt_text',
 						label: lang.alt,
 						setup: function (element) {
-							this.setValue(element.getAttribute("alt"));
+							this.setValue(element.getAttribute('alt'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute("alt", this.getValue());
+							element.setAttribute('alt', this.getValue());
 						}
 					},
 					{
@@ -194,11 +194,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 								id: 'use_original_image',
 								label: lang.useOriginal,
 								setup: function (element) {
-									this.setValue(element.getAttribute("original_image"));
+									this.setValue(element.getAttribute('original_image'));
 								},
 								// Called by the main commitContent call on dialog confirmation.
 								commit: function (element) {
-									element.setAttribute("original_image", this.getValue());
+									element.setAttribute('original_image', this.getValue());
 								}
 							},
 							{
@@ -230,11 +230,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 									getImageUrl();
 								},
 								setup: function (element) {
-									this.setValue(element.getAttribute("thumb_option"));
+									this.setValue(element.getAttribute('thumb_option'));
 								},
 								// Called by the main commitContent call on dialog confirmation.
 								commit: function (element) {
-									element.setAttribute("thumb_option", this.getValue());
+									element.setAttribute('thumb_option', this.getValue());
 								}
 							}
 						]
@@ -248,19 +248,19 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 								id: 'width',
 								label: commonLang.width,
 								onChange: function () {
-									if (this.getValue() != "") {
+									if (this.getValue() != '') {
 										var ratio = this.getValue() / imageWidth;   // get ratio for scaling image
-										dialog.getContentElement("tab-basic", "height").setValue(Math.ceil(imageHeight * ratio));
+										dialog.getContentElement('tab-basic', 'height').setValue(Math.ceil(imageHeight * ratio));
 									}
 
 									//getImageUrl();
 								},
 								setup: function (element) {
-									this.setValue(element.getAttribute("width"));
+									this.setValue(element.getAttribute('width'));
 								},
 								// Called by the main commitContent call on dialog confirmation.
 								commit: function (element) {
-									element.setAttribute("width", this.getValue());
+									element.setAttribute('width', this.getValue());
 								}
 							},
 							{
@@ -271,11 +271,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 									getImageUrl();
 								},
 								setup: function (element) {
-									this.setValue(element.getAttribute("height"));
+									this.setValue(element.getAttribute('height'));
 								},
 								// Called by the main commitContent call on dialog confirmation.
 								commit: function (element) {
-									element.setAttribute("height", this.getValue());
+									element.setAttribute('height', this.getValue());
 								}
 							}
 						]
@@ -310,11 +310,11 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 							[commonLang.alignRight]
 						],
 						setup: function (element) {
-							this.setValue(element.getAttribute("align"));
+							this.setValue(element.getAttribute('align'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute("align", this.getValue());
+							element.setAttribute('align', this.getValue());
 						}
 					},
 				]
