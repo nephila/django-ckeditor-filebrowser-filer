@@ -45,7 +45,6 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 		});
 	}
 
-	console.log("load");
 	return {
 		title: lang.title,
 		minWidth: 400,
@@ -131,6 +130,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			if (this.insertMode)
 				editor.insertElement(img);
 		},
+
 		contents: [
 			{
 				id: 'tab-basic',
