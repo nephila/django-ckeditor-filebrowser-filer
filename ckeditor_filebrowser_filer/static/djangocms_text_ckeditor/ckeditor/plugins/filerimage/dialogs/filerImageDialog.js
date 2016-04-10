@@ -312,8 +312,8 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						id: 'alignment',
 						label: commonLang.align,
 						items: [
-							[commonLang.alignLeft],
-							[commonLang.alignRight]
+							[commonLang.alignLeft, 'left'],
+							[commonLang.alignRight, 'right']
 						],
 						setup: function (element) {
 							this.setValue(element.getAttribute('align'));
