@@ -11,6 +11,7 @@
 
 CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 	var dialog = CKEDITOR.dialog.getCurrent(),
+		idSuffix = '_filerImageDialog',
 		imageWidth = 0,
 		imageHeight = 0,
 		lang = editor.lang.filerimage,
@@ -29,19 +30,20 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			height = 0;
 		if (thumb_sel_val != 0) {
 			thumb_opt_id = thumb_sel_val + '/';
-			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + thumb_opt_id;
+			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + thumb_opt_id;
 		} else {
 			width = dialog.getContentElement('tab-basic', 'width').getValue();
 			if (width == '') width = ''; else width += '/';
 			height = dialog.getContentElement('tab-basic', 'height').getValue();
 			if (height == '') height = ''; else height += '/';
-			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image').val() + '/' + width + height;
+			server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + width + height;
 		}
 		jQuery.get(server_url, function (data) {
 			url.setValue(data.url);
 			imageWidth = data.width;
 			imageHeight = data.height;
-			id_image_thumbnail_img.setAttribute('src', data.url);
+			var id_image_thumbnail_img = jQuery('#id_image' + idSuffix + '_thumbnail_img');
+			id_image_thumbnail_img.attr('src', data.url);
 		});
 	}
 
@@ -53,9 +55,9 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 		onShow: function () {
 			dialog = CKEDITOR.dialog.getCurrent();
 			var document = this.getElement().getDocument(),
-				id_image = document.getById('id_image'),
-				id_image_description_txt = document.getById('id_image_description_txt'),
-				id_image_thumbnail_img = document.getById('id_image_thumbnail_img'),
+				id_image = document.getById('id_image' + idSuffix),
+				id_image_description_txt = document.getById('id_image' + idSuffix + '_description_txt'),
+				id_image_thumbnail_img = document.getById('id_image' + idSuffix + '_thumbnail_img'),
 				oldVal = id_image.getValue();
 
 			setInterval(function () {
@@ -66,14 +68,14 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			}, 1000);
 			if (id_image)
 				id_image.hide();
-			var id_image_clear = document.getById('id_image_clear');
+			var id_image_clear = document.getById('id_image' + idSuffix + '_clear');
 
 			id_image_clear.on('click', function () {
 				id_image.setValue('');
 				id_image.removeAttribute('value');
 				id_image_thumbnail_img.setAttribute('src', nofile_icon);
 				id_image_description_txt.setHtml('');
-				id_image_clear = document.getById('id_image_clear');
+				id_image_clear = document.getById('id_image' + idSuffix + '_clear');
 				id_image_clear.hide();
 			});
 
@@ -120,7 +122,7 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 			dialog = CKEDITOR.dialog.getCurrent();
 			var document = this.getElement().getDocument();
 			// document = CKEDITOR.dom.document
-			var id_image = document.getById('id_image');
+			var id_image = document.getById('id_image' + idSuffix);
 			img.setAttribute('filer_id', id_image.getValue());
 
 			// Invoke the commit methods of all dialog elements, so the <img> element gets modified.
@@ -141,18 +143,18 @@ CKEDITOR.dialog.add('filerImageDialog', function (editor) {
 						html: '<style>' +
 								'.filerFile{display:table-cell; vertical-align: middle};' +
 								'.filerFile .related-lookup{ text-indent= 0;}' +
-								'#id_image_clear {display: none; width: auto; height: auto; vertical-align: middle; margin-left: 10px;}' +
+								'#id_image' + idSuffix + '_clear {display: none; width: auto; height: auto; vertical-align: middle; margin-left: 10px;}' +
 								'</style>' +
 							'<div class="field-box field-image filerFile"><div>' +
-								'<label for="id_image">' + commonLang.image + ':</label>' +
-								'<img width="36" height="36" alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image_thumbnail_img">' +
-								'&nbsp;<span id="id_image_description_txt" class="description_text"></span>' +
-								'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image" ' +
-									'data-id="id_image" class="related-lookup js-related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
+								'<label for="id_image' + idSuffix + '">' + commonLang.image + ':</label>' +
+								'<img width="36" height="36" alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image' + idSuffix + '_thumbnail_img">' +
+								'&nbsp;<span id="id_image' + idSuffix + '_description_txt" class="description_text"></span>' +
+								'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image' + idSuffix + '" ' +
+									'data-id="id_image' + idSuffix + '" class="related-lookup js-related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
 									'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +
 								'</a>' +
-								'<img width="10" height="10" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image_clear">' +
-								'<br><input type="hidden" id="id_image" data-id="id_image" name="image" class="vForeignKeyRawIdAdminField">' +
+								'<img width="10" height="10" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image' + idSuffix + '_clear">' +
+								'<br><input type="hidden" id="id_image' + idSuffix + '" data-id="id_image' + idSuffix + '" name="image" class="vForeignKeyRawIdAdminField">' +
 							'</div></div>'
 					},
 					{
