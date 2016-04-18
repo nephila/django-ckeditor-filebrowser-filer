@@ -24,8 +24,9 @@ Install django-ckeditor-filebrowser-filer::
 Then add it to INSTALLED_APPS along with its dependencies::
 
     'filer',
-    'cmsplugin_filer_image',
     'ckeditor_filebrowser_filer',
+
+**IMPORTANT: if you're using filer<1.2 this plugin requires django CMS and 'cmsplugin_filer_image', so you need to add 'cmsplugin_filer_image' in your settings and setup a django CMS environment**
 
 Configure django-filer `Canonical URLs`_
 
