@@ -48,3 +48,6 @@ runtests.py
 docs
 tests
 requirements-test.txt
+
+# OS
+.DS_Store
