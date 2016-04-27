@@ -3,11 +3,14 @@
 History
 -------
 
-0.2.0 (2015-11-18)
+0.2.0 (unreleased)
 ++++++++++++++++++
 
-* Update to use canonical urls feature of filer 1.0
-* Update to work with djangocms-text-ckeditor 2.7
+* Added support for canonical urls feature of filer 1.0
+* Added support to django-ckeditor (without django CMS)
+* Added support to filer up to 1.2
+* Added support to ThumbnailOption
+* Updated to work with djangocms-text-ckeditor 2.7
 
 0.1.1 (2014-09-27)
 ++++++++++++++++++
