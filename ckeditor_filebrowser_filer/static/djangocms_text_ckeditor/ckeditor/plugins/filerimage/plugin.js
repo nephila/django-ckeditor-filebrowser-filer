@@ -30,7 +30,8 @@
                 });
             }
             jQuery.get('/filebrowser_filer/filer_version/', { }, function(data) {
-                if(data == '1.1') {
+                editor.filer_version = data;
+                if(data == '1.1' || data == '1.2') {
                     CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/addons/popup_handling.js' );
                 }
                 else if(data == '1.0') {
@@ -38,15 +39,18 @@
                 }
                 CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
             });
+            
+            jQuery.get('/filebrowser_filer/use_thumbnailoptions_only/', { }, function(data) {
+                editor.use_thumbnailoptions_only = data
+            });
 
-            var dialog = CKEDITOR.dialog.getCurrent();
-
-            jQuery.get(
-                '/filebrowser_filer/url_reverse/',
+            jQuery.get('/filebrowser_filer/url_reverse/',
                 { url_name: 'admin:filer-directory_listing-last' },
                 function(data) {
 
             });
+
+            var dialog = CKEDITOR.dialog.getCurrent();
         }
     });
 })($||django.jQuery||jQuery);

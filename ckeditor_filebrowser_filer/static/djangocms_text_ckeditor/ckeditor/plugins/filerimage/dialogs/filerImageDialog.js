@@ -21,6 +21,208 @@
 			base_static = '/static',
 			base_admin = '/admin',
 			nofile_icon = base_static + '/filer/icons/nofile_48x48.png';
+		if (editor.filer_version < 1.2)
+			var picker = 't=file_ptr';
+		else
+			var picker = '_pick=file';
+
+		var standard_items = [
+			{
+				type: 'html',
+				html: '<style>' +
+						'.filerFile{display:table-cell; vertical-align: middle};' +
+						'.filerFile .related-lookup{ text-indent= 0;}' +
+						'#id_image' + idSuffix + '_clear {display: none; width: auto; height: auto; vertical-align: middle; margin-left: 10px;}' +
+						'</style>' +
+					'<div class="field-box field-image filerFile"><div>' +
+						'<label for="id_image' + idSuffix + '">' + commonLang.image + ':</label>' +
+						'<img style="width: 36px"; width="36" height="36" alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image' + idSuffix + '_thumbnail_img">' +
+						'&nbsp;<span id="id_image' + idSuffix + '_description_txt" class="description_text"></span>' +
+						'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image' + idSuffix + '" ' +
+							'data-id="id_image' + idSuffix + '" class="related-lookup js-related-lookup" href="' + base_admin + '/filer/folder/last/?' + picker+ '">' +
+							'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +
+						'</a>' +
+						'<img width="10" height="10" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image' + idSuffix + '_clear">' +
+						'<br><input type="hidden" id="id_image' + idSuffix + '" data-id="id_image' + idSuffix + '" name="image" class="vForeignKeyRawIdAdminField">' +
+					'</div></div>'
+			},
+			{
+				type: 'text',
+				id: 'url',
+				label: lang.url,
+				setup: function (element) {
+					this.setValue(element.getAttribute('src'));
+				},
+				// Called by the main commitContent call on dialog confirmation.
+				commit: function (element) {
+					element.setAttribute('src', this.getValue());
+				}
+			},
+			{
+				type: 'text',
+				id: 'caption',
+				label: lang.caption,
+				setup: function (element) {
+					this.setValue(element.getAttribute('title'));
+				},
+				// Called by the main commitContent call on dialog confirmation.
+				commit: function (element) {
+					element.setAttribute('title', this.getValue());
+				}
+			},
+			{
+				type: 'text',
+				id: 'alt_text',
+				label: lang.alt,
+				setup: function (element) {
+					this.setValue(element.getAttribute('alt'));
+				},
+				// Called by the main commitContent call on dialog confirmation.
+				commit: function (element) {
+					element.setAttribute('alt', this.getValue());
+				}
+			},
+			{
+				type: 'select',
+				id: 'alignment',
+				label: commonLang.align,
+				items: [
+					[commonLang.alignLeft, 'left'],
+					[commonLang.alignRight, 'right']
+				],
+				setup: function (element) {
+					this.setValue(element.getAttribute('align'));
+				},
+				// Called by the main commitContent call on dialog confirmation.
+				commit: function (element) {
+					element.setAttribute('align', this.getValue());
+				}
+			},
+			{
+				type: 'hbox',
+				widths: [ '50%', '50%' ],
+				children: [
+					{
+						type: 'checkbox',
+						id: 'use_original_image',
+						label: lang.useOriginal,
+						setup: function (element) {
+							this.setValue(element.getAttribute('original_image'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('original_image', this.getValue());
+						}
+					},
+					{
+						type: 'select',
+						id: 'thumbnail_option',
+						items: [
+							['--- Thumbnail ---', 0]
+						],
+						onLoad: function () {
+							var element_id = '#' + this.getInputElement().$.id;
+							jQuery.ajax({
+								type: 'GET',
+								url: base_ckeditor + '/thumbnail_options/',
+								contentType: 'application/json; charset=utf-8',
+								dataType: 'json',
+								async: false,
+								success: function (data) {
+									jQuery.each(data, function (index, item) {
+										jQuery(element_id).get(0).options[jQuery(element_id).get(0).options.length] = new Option(item.name, item.id);
+									});
+								},
+								error: function (xhr, ajaxOptions, thrownError) {
+									alert(xhr.status);
+									alert(thrownError);
+								}
+							});
+						},
+						onChange: function () {
+							getImageUrl();
+						},
+						setup: function (element) {
+							this.setValue(element.getAttribute('thumb_option'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('thumb_option', this.getValue());
+						}
+					}
+				]
+			}
+		];
+
+		var extra_items = [
+			{
+				type: 'hbox',
+				widths: [ '50%', '50%' ],
+				children: [
+					{
+						type: 'text',
+						id: 'width',
+						label: commonLang.width,
+						onChange: function () {
+							if (this.getValue() != '') {
+								var ratio = this.getValue() / imageWidth;   // get ratio for scaling image
+								dialog.getContentElement('tab-basic', 'height').setValue(Math.ceil(imageHeight * ratio));
+							}
+
+							//getImageUrl();
+						},
+						setup: function (element) {
+							this.setValue(element.getAttribute('width'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('width', this.getValue());
+						}
+					},
+					{
+						type: 'text',
+						id: 'height',
+						label: commonLang.height,
+						onChange: function () {
+							getImageUrl();
+						},
+						setup: function (element) {
+							this.setValue(element.getAttribute('height'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('height', this.getValue());
+						}
+					}
+				]
+			},
+			{
+				type: 'hbox',
+				widths: [ '33%', '33%', '33%' ],
+				children: [
+					{
+						type: 'checkbox',
+						id: 'crop',
+						label: lang.crop
+					},
+					{
+						type: 'checkbox',
+						id: 'upscale',
+						label: lang.upscale
+					},
+					{
+						type: 'checkbox',
+						id: 'use_autoscale',
+						label: lang.autoscale
+					}
+				]
+			}
+		];
+
+		if (editor.use_thumbnailoptions_only === '1')
+			var elements = standard_items;
+		else
+			var elements = standard_items.concat(extra_items);
 
 		function getImageUrl() {
 			var url = dialog.getContentElement('tab-basic', 'url'),
@@ -138,195 +340,7 @@
 				{
 					id: 'tab-basic',
 					label: lang.titleBasic,
-					elements: [
-						{
-							type: 'html',
-							html: '<style>' +
-									'.filerFile{display:table-cell; vertical-align: middle};' +
-									'.filerFile .related-lookup{ text-indent= 0;}' +
-									'#id_image' + idSuffix + '_clear {display: none; width: auto; height: auto; vertical-align: middle; margin-left: 10px;}' +
-									'</style>' +
-								'<div class="field-box field-image filerFile"><div>' +
-									'<label for="id_image' + idSuffix + '">' + commonLang.image + ':</label>' +
-									'<img width="36" height="36" alt="' + lang.noFileAlt + '" class="quiet" src="' + nofile_icon + '" id="id_image' + idSuffix + '_thumbnail_img">' +
-									'&nbsp;<span id="id_image' + idSuffix + '_description_txt" class="description_text"></span>' +
-									'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image' + idSuffix + '" ' +
-										'data-id="id_image' + idSuffix + '" class="related-lookup js-related-lookup" href="' + base_admin + '/filer/folder/last/?t=file_ptr">' +
-										'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +
-									'</a>' +
-									'<img width="10" height="10" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image' + idSuffix + '_clear">' +
-									'<br><input type="hidden" id="id_image' + idSuffix + '" data-id="id_image' + idSuffix + '" name="image" class="vForeignKeyRawIdAdminField">' +
-								'</div></div>'
-						},
-						{
-							type: 'text',
-							id: 'url',
-							label: lang.url,
-							setup: function (element) {
-								this.setValue(element.getAttribute('src'));
-							},
-							// Called by the main commitContent call on dialog confirmation.
-							commit: function (element) {
-								element.setAttribute('src', this.getValue());
-							}
-						},
-						{
-							type: 'text',
-							id: 'caption',
-							label: lang.caption,
-							setup: function (element) {
-								this.setValue(element.getAttribute('title'));
-							},
-							// Called by the main commitContent call on dialog confirmation.
-							commit: function (element) {
-								element.setAttribute('title', this.getValue());
-							}
-						},
-						{
-							type: 'text',
-							id: 'alt_text',
-							label: lang.alt,
-							setup: function (element) {
-								this.setValue(element.getAttribute('alt'));
-							},
-							// Called by the main commitContent call on dialog confirmation.
-							commit: function (element) {
-								element.setAttribute('alt', this.getValue());
-							}
-						},
-						{
-							type: 'hbox',
-							widths: [ '50%', '50%' ],
-							children: [
-								{
-									type: 'checkbox',
-									id: 'use_original_image',
-									label: lang.useOriginal,
-									setup: function (element) {
-										this.setValue(element.getAttribute('original_image'));
-									},
-									// Called by the main commitContent call on dialog confirmation.
-									commit: function (element) {
-										element.setAttribute('original_image', this.getValue());
-									}
-								},
-								{
-									type: 'select',
-									id: 'thumbnail_option',
-									items: [
-										['--- Thumbnail ---', 0]
-									],
-									onLoad: function () {
-										var element_id = '#' + this.getInputElement().$.id;
-										jQuery.ajax({
-											type: 'GET',
-											url: base_ckeditor + '/thumbnail_options/',
-											contentType: 'application/json; charset=utf-8',
-											dataType: 'json',
-											async: false,
-											success: function (data) {
-												jQuery.each(data, function (index, item) {
-													jQuery(element_id).get(0).options[jQuery(element_id).get(0).options.length] = new Option(item.name, item.id);
-												});
-											},
-											error: function (xhr, ajaxOptions, thrownError) {
-												alert(xhr.status);
-												alert(thrownError);
-											}
-										});
-									},
-									onChange: function () {
-										getImageUrl();
-									},
-									setup: function (element) {
-										this.setValue(element.getAttribute('thumb_option'));
-									},
-									// Called by the main commitContent call on dialog confirmation.
-									commit: function (element) {
-										element.setAttribute('thumb_option', this.getValue());
-									}
-								}
-							]
-						},
-						{
-							type: 'hbox',
-							widths: [ '50%', '50%' ],
-							children: [
-								{
-									type: 'text',
-									id: 'width',
-									label: commonLang.width,
-									onChange: function () {
-										if (this.getValue() != '') {
-											var ratio = this.getValue() / imageWidth;   // get ratio for scaling image
-											dialog.getContentElement('tab-basic', 'height').setValue(Math.ceil(imageHeight * ratio));
-										}
-
-										//getImageUrl();
-									},
-									setup: function (element) {
-										this.setValue(element.getAttribute('width'));
-									},
-									// Called by the main commitContent call on dialog confirmation.
-									commit: function (element) {
-										element.setAttribute('width', this.getValue());
-									}
-								},
-								{
-									type: 'text',
-									id: 'height',
-									label: commonLang.height,
-									onChange: function () {
-										getImageUrl();
-									},
-									setup: function (element) {
-										this.setValue(element.getAttribute('height'));
-									},
-									// Called by the main commitContent call on dialog confirmation.
-									commit: function (element) {
-										element.setAttribute('height', this.getValue());
-									}
-								}
-							]
-						},
-						{
-							type: 'hbox',
-							widths: [ '33%', '33%', '33%' ],
-							children: [
-								{
-									type: 'checkbox',
-									id: 'crop',
-									label: lang.crop
-								},
-								{
-									type: 'checkbox',
-									id: 'upscale',
-									label: lang.upscale
-								},
-								{
-									type: 'checkbox',
-									id: 'use_autoscale',
-									label: lang.autoscale
-								}
-							]
-						},
-						{
-							type: 'select',
-							id: 'alignment',
-							label: commonLang.align,
-							items: [
-								[commonLang.alignLeft, 'left'],
-								[commonLang.alignRight, 'right']
-							],
-							setup: function (element) {
-								this.setValue(element.getAttribute('align'));
-							},
-							// Called by the main commitContent call on dialog confirmation.
-							commit: function (element) {
-								element.setAttribute('align', this.getValue());
-							}
-						},
-					]
+					elements: elements
 				},
 				{
 					id: 'tab-adv',
