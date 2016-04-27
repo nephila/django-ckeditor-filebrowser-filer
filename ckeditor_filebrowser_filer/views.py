@@ -3,6 +3,7 @@ import json
 from distutils.version import LooseVersion
 
 from django import http
+from django.conf import settings
 from django.core import urlresolvers 
 from filer.models import Image
 
@@ -15,7 +16,19 @@ except ImportError:
 def filer_version(request):
     import filer
     filer_legacy = LooseVersion(filer.__version__) < LooseVersion('1.1')
-    return http.HttpResponse('1.0' if filer_legacy else '1.1')
+    filer_11 = not filer_legacy and LooseVersion(filer.__version__) < LooseVersion('1.2')
+    filer_12 = not filer_11 and LooseVersion(filer.__version__) < LooseVersion('1.3')
+    if filer_11:
+        version = '1.1'
+    elif filer_12:
+        version = '1.2'
+    else:
+        version = '1.0'
+    return http.HttpResponse(version)
+
+
+def use_thumbnailoptions_only(request):
+    return http.HttpResponse(int(getattr(settings, 'CKEDITOR_FILEBROWSER_USE_THUMBNAILOPTIONS_ONLY', False)))
 
 
 def url_reverse(request):
