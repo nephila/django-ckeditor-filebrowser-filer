@@ -15,9 +15,9 @@ version = ckeditor_filebrowser_filer.__version__
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
-    print("You probably want to also tag the version now:")
-    print("  git tag -a %s -m 'version %s'" % (version, version))
-    print("  git push --tags")
+    print('You probably want to also tag the version now:')
+    print('  git tag -a %s -m \'version %s\'' % (version, version))
+    print('  git push --tags')
     sys.exit()
 
 readme = open('README.rst').read()
@@ -26,7 +26,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 setup(
     name='django-ckeditor-filebrowser-filer',
     version=version,
-    description="""A django-filer based CKEditor filebrowser""",
+    description='A django-filer based CKEditor filebrowser',
     long_description=readme + '\n\n' + history,
     author='Iacopo Spalletti',
     author_email='i.spalletti@nephila.it',
@@ -37,9 +37,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'django-filer>=1.0',
-        'cmsplugin-filer>=1.0'
     ],
-    license="BSD",
+    license='BSD',
     zip_safe=False,
     keywords='django-ckeditor-filebrowser-filer, django, filer, ckeditor, filebrowser',
     classifiers=[
