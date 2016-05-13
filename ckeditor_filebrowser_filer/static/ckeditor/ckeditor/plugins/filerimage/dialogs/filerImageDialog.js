@@ -71,52 +71,29 @@
 				}
 			},
 			{
-				type: 'text',
-				id: 'alt_text',
-				label: lang.alt,
-				setup: function (element) {
-					this.setValue(element.getAttribute('alt'));
-				},
-				// Called by the main commitContent call on dialog confirmation.
-				commit: function (element) {
-					element.setAttribute('alt', this.getValue());
-				}
-			},
-			{
-				type: 'select',
-				id: 'alignment',
-				label: commonLang.align,
-				items: [
-					[commonLang.alignLeft, 'left'],
-					[commonLang.alignRight, 'right']
-				],
-				setup: function (element) {
-					this.setValue(element.getAttribute('align'));
-				},
-				// Called by the main commitContent call on dialog confirmation.
-				commit: function (element) {
-					element.setAttribute('align', this.getValue());
-				}
-			},
-			{
 				type: 'hbox',
 				widths: [ '50%', '50%' ],
 				children: [
 					{
-						type: 'checkbox',
-						id: 'use_original_image',
-						label: lang.useOriginal,
+						type: 'select',
+						id: 'alignment',
+						label: commonLang.align,
+						items: [
+							[commonLang.alignLeft, 'left'],
+							[commonLang.alignRight, 'right']
+						],
 						setup: function (element) {
-							this.setValue(element.getAttribute('original_image'));
+							this.setValue(element.getAttribute('align'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute('original_image', this.getValue());
+							element.setAttribute('align', this.getValue());
 						}
 					},
 					{
 						type: 'select',
 						id: 'thumbnail_option',
+						label: lang.thumbnailOption,
 						items: [
 							['--- Thumbnail ---', 0]
 						],
@@ -157,8 +134,20 @@
 		var extra_items = [
 			{
 				type: 'hbox',
-				widths: [ '50%', '50%' ],
+				widths: [ '33%', '33%', '33%' ],
 				children: [
+					{
+						type: 'checkbox',
+						id: 'use_original_image',
+						label: lang.useOriginal,
+						setup: function (element) {
+							this.setValue(element.getAttribute('original_image'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('original_image', this.getValue());
+						}
+					},
 					{
 						type: 'text',
 						id: 'width',

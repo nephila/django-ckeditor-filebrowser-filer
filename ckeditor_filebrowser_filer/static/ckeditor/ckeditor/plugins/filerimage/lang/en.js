@@ -17,5 +17,6 @@ CKEDITOR.plugins.setLang( 'filerimage', 'en', {
 	crop: 'Crop',
 	upscale: 'Upscale',
 	autoscale: 'Autoscale',
+	thumbnailOption: 'Thumbnail preset',
 	alt: 'Alternative Text'
 } );
