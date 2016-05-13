@@ -13,5 +13,6 @@
 	crop: 'Ritaglia',
 	upscale: 'Ingrandisci',
 	autoscale: 'Riscalatura automatica',
+	thumbnailOption: 'Dimensioni predefinite',
 	alt: 'Testo alternativo'
 } );

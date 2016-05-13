@@ -5,7 +5,7 @@ from distutils.version import LooseVersion
 from django import http
 from django.conf import settings
 from django.core import urlresolvers 
-from filer.models import Image
+from filer.models import File
 
 try:
     from filer.models import ThumbnailOption
@@ -61,7 +61,7 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
     :param height: user-provided height
     :return: JSON serialized URL components ('url', 'width', 'height')
     """
-    image = Image.objects.get(pk=image_id)
+    image = File.objects.get(pk=image_id)
     if getattr(image, 'canonical_url', None):
         url = image.canonical_url
     else:

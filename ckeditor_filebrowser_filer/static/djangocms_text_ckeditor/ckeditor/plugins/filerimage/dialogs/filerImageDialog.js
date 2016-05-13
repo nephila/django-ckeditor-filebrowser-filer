@@ -71,52 +71,29 @@
 				}
 			},
 			{
-				type: 'text',
-				id: 'alt_text',
-				label: lang.alt,
-				setup: function (element) {
-					this.setValue(element.getAttribute('alt'));
-				},
-				// Called by the main commitContent call on dialog confirmation.
-				commit: function (element) {
-					element.setAttribute('alt', this.getValue());
-				}
-			},
-			{
-				type: 'select',
-				id: 'alignment',
-				label: commonLang.align,
-				items: [
-					[commonLang.alignLeft, 'left'],
-					[commonLang.alignRight, 'right']
-				],
-				setup: function (element) {
-					this.setValue(element.getAttribute('align'));
-				},
-				// Called by the main commitContent call on dialog confirmation.
-				commit: function (element) {
-					element.setAttribute('align', this.getValue());
-				}
-			},
-			{
 				type: 'hbox',
 				widths: [ '50%', '50%' ],
 				children: [
 					{
-						type: 'checkbox',
-						id: 'use_original_image',
-						label: lang.useOriginal,
+						type: 'select',
+						id: 'alignment',
+						label: commonLang.align,
+						items: [
+							[commonLang.alignLeft, 'left'],
+							[commonLang.alignRight, 'right']
+						],
 						setup: function (element) {
-							this.setValue(element.getAttribute('original_image'));
+							this.setValue(element.getAttribute('align'));
 						},
 						// Called by the main commitContent call on dialog confirmation.
 						commit: function (element) {
-							element.setAttribute('original_image', this.getValue());
+							element.setAttribute('align', this.getValue());
 						}
 					},
 					{
 						type: 'select',
 						id: 'thumbnail_option',
+						label: lang.thumbnailOption,
 						items: [
 							['--- Thumbnail ---', 0]
 						],
@@ -157,8 +134,20 @@
 		var extra_items = [
 			{
 				type: 'hbox',
-				widths: [ '50%', '50%' ],
+				widths: [ '33%', '33%', '33%' ],
 				children: [
+					{
+						type: 'checkbox',
+						id: 'use_original_image',
+						label: lang.useOriginal,
+						setup: function (element) {
+							this.setValue(element.getAttribute('original_image'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('original_image', this.getValue());
+						}
+					},
 					{
 						type: 'text',
 						id: 'width',
@@ -235,10 +224,16 @@
 				thumb_opt_id = thumb_sel_val + '/';
 				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + thumb_opt_id;
 			} else {
-				width = dialog.getContentElement('tab-basic', 'width').getValue();
-				if (width == '') width = ''; else width += '/';
-				height = dialog.getContentElement('tab-basic', 'height').getValue();
-				if (height == '') height = ''; else height += '/';
+				if (dialog.getContentElement('tab-basic', 'width')) {
+					width = dialog.getContentElement('tab-basic', 'width').getValue();
+					if (width == '') width = ''; else width += '/';
+					height = dialog.getContentElement('tab-basic', 'height').getValue();
+					if (height == '') height = ''; else height += '/';
+				}
+				else {
+					width = '';
+					height = '';
+				}
 				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + width + height;
 			}
 			jQuery.get(server_url, function (data) {
