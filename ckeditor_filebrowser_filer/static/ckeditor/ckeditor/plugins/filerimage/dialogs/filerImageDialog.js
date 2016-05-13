@@ -224,10 +224,16 @@
 				thumb_opt_id = thumb_sel_val + '/';
 				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + thumb_opt_id;
 			} else {
-				width = dialog.getContentElement('tab-basic', 'width').getValue();
-				if (width == '') width = ''; else width += '/';
-				height = dialog.getContentElement('tab-basic', 'height').getValue();
-				if (height == '') height = ''; else height += '/';
+				if (dialog.getContentElement('tab-basic', 'width')) {
+					width = dialog.getContentElement('tab-basic', 'width').getValue();
+					if (width == '') width = ''; else width += '/';
+					height = dialog.getContentElement('tab-basic', 'height').getValue();
+					if (height == '') height = ''; else height += '/';
+				}
+				else {
+					width = '';
+					height = '';
+				}
 				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + width + height;
 			}
 			jQuery.get(server_url, function (data) {
