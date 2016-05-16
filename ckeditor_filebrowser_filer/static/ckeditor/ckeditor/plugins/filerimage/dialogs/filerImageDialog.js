@@ -222,7 +222,6 @@
 				height = 0;
 			if (thumb_sel_val != 0) {
 				thumb_opt_id = thumb_sel_val + '/';
-				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + thumb_opt_id;
 			} else {
 				if (dialog.getContentElement('tab-basic', 'width')) {
 					width = dialog.getContentElement('tab-basic', 'width').getValue();
@@ -234,15 +233,40 @@
 					width = '';
 					height = '';
 				}
-				server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + width + height;
 			}
-			jQuery.get(server_url, function (data) {
-				url.setValue(data.url);
-				imageWidth = data.width;
-				imageHeight = data.height;
+			if(!editor.use_canonical_for_thumbnails) {
+				if (thumb_opt_id) {
+					server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + thumb_opt_id;
+				}
+				else {
+					server_url = base_ckeditor + '/url_image/' + jQuery('#id_image' + idSuffix).val() + '/' + width + height;
+				}
+				jQuery.get(server_url, function (data) {
+					url.setValue(data.url);
+					imageWidth = data.width;
+					imageHeight = data.height;
+					var id_image_thumbnail_img = jQuery('#id_image' + idSuffix + '_thumbnail_img');
+					id_image_thumbnail_img.attr('src', data.url);
+				});
+
+			}
+			else {
+				if(editor.use_canonical_for_thumbnails === true) {
+					server_url = base_ckeditor + '/serve/' + jQuery('#id_image' + idSuffix).val() + '/';
+				}
+				else {
+					server_url = editor.use_canonical_for_thumbnails + jQuery('#id_image' + idSuffix).val() + '/';
+				}
+				if (thumb_opt_id) {
+					server_url += thumb_opt_id;
+				}
+				else {
+					server_url += width + height;
+				}
 				var id_image_thumbnail_img = jQuery('#id_image' + idSuffix + '_thumbnail_img');
-				id_image_thumbnail_img.attr('src', data.url);
-			});
+				url.setValue(server_url);
+				id_image_thumbnail_img.attr('src', server_url);
+			}
 		}
 
 		return {

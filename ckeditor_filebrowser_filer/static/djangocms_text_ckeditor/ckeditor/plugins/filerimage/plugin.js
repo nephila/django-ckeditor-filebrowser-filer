@@ -11,13 +11,17 @@
                 label: lang.name,
                 command: 'filerImageDialog',
                 toolbar: 'insert',
-                icon: 'filerimage'
+                icon: 'filerimage',
+                requiredContent: 'img[src]',
+                allowedContent: 'img[!src,alt,width,height]'
             });
 
             if ( editor.contextMenu ) {
                 editor.addMenuGroup( 'Filer' );
                 editor.addMenuItem( 'imageItem', {
                     label: lang.edit,
+                    requiredContent: 'img[src]',
+                    allowedContent: 'img[!src,alt,width,height]',
                     icon: this.path + 'icons/filerimage.png',
                     command: 'filerImageDialog',
                     group: 'Filer'
@@ -40,8 +44,19 @@
                 CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
             });
             
-            jQuery.get('/filebrowser_filer/use_thumbnailoptions_only/', { }, function(data) {
+            jQuery.get('/filebrowser_filer/setting/use_thumbnailoptions_only/', { }, function(data) {
                 editor.use_thumbnailoptions_only = data
+            });
+            jQuery.get('/filebrowser_filer/setting/use_canonical_for_thumbnails/', { }, function(data) {
+                if(data == '0') {
+                    editor.use_canonical_for_thumbnails = false;
+                }
+                else if(data == '1') {
+                    editor.use_canonical_for_thumbnails = true;
+                }
+                else {
+                    editor.use_canonical_for_thumbnails = data;
+                }
             });
 
             jQuery.get('/filebrowser_filer/url_reverse/',
