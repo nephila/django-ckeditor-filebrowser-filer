@@ -32,7 +32,10 @@ def filer_version(request):
 
 def get_setting(request, setting):
     setting = 'CKEDITOR_FILEBROWSER_{}'.format(setting).upper()
-    return http.HttpResponse(int(getattr(settings, setting, False)))
+    try:
+        return http.HttpResponse(int(getattr(settings, setting, False)))
+    except ValueError:
+        return http.HttpResponse(getattr(settings, setting, False))
 
 
 def url_reverse(request):
