@@ -5,23 +5,23 @@
         init: function( editor ) {
             that = this,
             lang = editor.lang.filerimage,
-            editor.addCommand( 'filerImageDialog', new CKEDITOR.dialogCommand( 'filerImageDialog' ) );
+            requiredContent = 'img[!src]',
+            allowedContent = 'img[!src,alt,width,height,align,filer_id,thumb_option,title,style]',
+            editor.addCommand( 'filerImageDialog', new CKEDITOR.dialogCommand( 'filerImageDialog',{
+                allowedContent: allowedContent,
+            } ) );
 
             editor.ui.addButton( 'FilerImage', {
                 label: lang.name,
                 command: 'filerImageDialog',
                 toolbar: 'insert',
                 icon: 'filerimage',
-                requiredContent: 'img[src]',
-                allowedContent: 'img[!src,alt,width,height]'
             });
 
             if ( editor.contextMenu ) {
                 editor.addMenuGroup( 'Filer' );
                 editor.addMenuItem( 'imageItem', {
                     label: lang.edit,
-                    requiredContent: 'img[src]',
-                    allowedContent: 'img[!src,alt,width,height]',
                     icon: this.path + 'icons/filerimage.png',
                     command: 'filerImageDialog',
                     group: 'Filer'
