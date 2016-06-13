@@ -64,7 +64,7 @@ when using `djangocms-text-ckeditor`_ use ``CKEDITOR_SETTINGS`` instead of
 ``CKEDITOR_CONFIGS``.
 
 
-.. _Canonical URLs: http://django-filer.readthedocs.org/en/latest/installation.html#canonical-urls
+.. _Canonical URLs: https://django-filer.readthedocs.io/en/latest/installation.html#canonical-urls
 .. _django CMS: https://pypi.python.org/pypi/django-cms
 .. _django-filer: https://pypi.python.org/pypi/django-filer
 .. _cmsplugin_filer_image: https://pypi.python.org/pypi/cmsplugin_filer_image
