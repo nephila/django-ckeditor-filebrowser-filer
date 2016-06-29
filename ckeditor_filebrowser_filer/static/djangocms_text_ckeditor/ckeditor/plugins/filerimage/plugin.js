@@ -33,6 +33,13 @@
                     }
                 });
             }
+
+            jQuery.get('/filebrowser_filer/url_reverse/',
+                { url_name: 'admin:index' },
+                function(data) {
+                    editor.base_admin = data.replace(/\/$/, "");
+            });
+
             jQuery.get('/filebrowser_filer/filer_version/', { }, function(data) {
                 editor.filer_version = data;
                 if(data == '1.1' || data == '1.2') {
@@ -43,7 +50,7 @@
                 }
                 CKEDITOR.dialog.add( 'filerImageDialog', that.path + 'dialogs/filerImageDialog.js' );
             });
-            
+
             jQuery.get('/filebrowser_filer/setting/use_thumbnailoptions_only/', { }, function(data) {
                 editor.use_thumbnailoptions_only = data
             });
