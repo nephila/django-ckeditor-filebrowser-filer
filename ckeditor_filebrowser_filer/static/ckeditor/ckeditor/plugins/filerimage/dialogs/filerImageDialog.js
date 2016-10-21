@@ -18,7 +18,7 @@
 			lang = editor.lang.filerimage,
 			commonLang = editor.lang.common,
 			base_ckeditor = '/filebrowser_filer',
-			base_static = editor.plugins.filerimage.path + '../../../../../static',
+			base_static = editor.plugins.filerimage.path + '../../../../../',
 			base_admin = editor.base_admin,
 			nofile_icon = base_static + '/filer/icons/nofile_48x48.png';
 		if (editor.filer_version < 1.2)
