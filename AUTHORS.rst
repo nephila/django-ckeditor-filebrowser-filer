@@ -11,4 +11,9 @@ Development Lead
 Contributors
 ------------
 
-None yet. Why not be the first?
+Adam Chainz
+Andrea Stagi
+bee-keeper
+Gasim Gasimzada
+Paolo Romolini
+Richard Terry
