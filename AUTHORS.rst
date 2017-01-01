@@ -14,6 +14,7 @@ Contributors
 Adam Chainz
 Andrea Stagi
 bee-keeper
+Fernando Macedo
 Gasim Gasimzada
 Paolo Romolini
 Richard Terry
