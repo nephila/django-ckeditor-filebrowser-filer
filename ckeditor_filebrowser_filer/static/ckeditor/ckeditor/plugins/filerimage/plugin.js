@@ -1,6 +1,6 @@
 (function(jQuery){
     CKEDITOR.plugins.add( 'filerimage', {
-        lang: 'en,it,fr',
+        lang: 'en,it,fr,ru',
         icons: 'filerimage',
         init: function( editor ) {
             that = this,
