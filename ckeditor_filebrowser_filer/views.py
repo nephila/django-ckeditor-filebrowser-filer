@@ -20,7 +20,7 @@ def filer_version(request):
     import filer
     filer_legacy = LooseVersion(filer.__version__) < LooseVersion('1.1')
     filer_11 = not filer_legacy and LooseVersion(filer.__version__) < LooseVersion('1.2')
-    filer_12 = not filer_11 and LooseVersion(filer.__version__) < LooseVersion('1.3')
+    filer_12 = LooseVersion(filer.__version__) >= LooseVersion('1.2')
     if filer_11:
         version = '1.1'
     elif filer_12:
