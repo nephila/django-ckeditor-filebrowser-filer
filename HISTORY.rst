@@ -3,6 +3,12 @@
 History
 -------
 
+0.2.4 (2018-01-09)
+++++++++++++++++++
+
+* Fixed filer version detection
+* Added support for Django 1.11
+
 0.2.3 (2017-04-19)
 ++++++++++++++++++
 
