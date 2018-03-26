@@ -55,6 +55,7 @@
 				},
 				// Called by the main commitContent call on dialog confirmation.
 				commit: function (element) {
+					element.$.dataset["ckeSavedSrc"] = this.getValue();
 					element.setAttribute('src', this.getValue());
 				}
 			},
