@@ -4,7 +4,7 @@ from distutils.version import LooseVersion
 
 from django import http
 from django.conf import settings
-from django.core import urlresolvers
+from django import urls
 from django.http import HttpResponseRedirect
 
 from filer.models import File
@@ -49,10 +49,10 @@ def url_reverse(request):
         data = getattr(request, request.method) 
         url_name = data.get('url_name') 
         try: 
-            path = urlresolvers.reverse(url_name, args=data.getlist('args')) 
-            (view_func, args, kwargs) = urlresolvers.resolve(path)
+            path = urls.reverse(url_name, args=data.getlist('args')) 
+            (view_func, args, kwargs) = urls.resolve(path)
             return http.HttpResponse(path, content_type='text/plain')
-        except urlresolvers.NoReverseMatch: 
+        except urls.NoReverseMatch: 
             return http.HttpResponse('Error', content_type='text/plain')
     return http.HttpResponseNotAllowed(('GET', 'POST'))
 
