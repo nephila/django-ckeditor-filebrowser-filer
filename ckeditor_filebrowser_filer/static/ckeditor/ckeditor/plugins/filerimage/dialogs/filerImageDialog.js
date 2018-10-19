@@ -319,8 +319,19 @@
 					// Flag the insertion mode for later use.
 					this.insertMode = true;
 				}
-				else
+				else {
 					this.insertMode = false;
+
+                    // try to guess filer_id from canonical url.
+                    var filer_id = element.getAttribute('filer_id');
+                    if (!filer_id ) {
+                        var src = element.getAttribute('src');
+                        if (src.startsWith(editor.canonical_url_prefix)) {
+                            var parts = src.split('/');
+                            element.setAttribute('filer_id', parseInt(parts[parts.length-2]));
+                        }
+                    }
+                }
 
 				// Store the reference to the <img> element in an internal property, for later use.
 				this.element = element;

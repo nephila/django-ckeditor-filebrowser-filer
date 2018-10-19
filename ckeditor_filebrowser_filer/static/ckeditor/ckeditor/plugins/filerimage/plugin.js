@@ -66,10 +66,16 @@
                 }
             });
 
-            jQuery.get('/filebrowser_filer/url_reverse/',
-                { url_name: 'admin:filer-directory_listing-last' },
-                function(data) {
+            // jQuery.get('/filebrowser_filer/url_reverse/',
+            //     { url_name: 'admin:filer-directory_listing-last' },
+            //     function(data) {
 
+            // });
+
+            jQuery.get('/filebrowser_filer/url_reverse/',
+                'url_name=canonical&args=0&args=1',
+                function(data) {
+                    editor.canonical_url_prefix = data.substring(0, data.length - 5);
             });
 
             var dialog = CKEDITOR.dialog.getCurrent();
