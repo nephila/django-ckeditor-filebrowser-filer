@@ -7,7 +7,7 @@ from django.conf import settings
 from django import urls
 from django.http import HttpResponseRedirect
 
-from filer.models import File
+from filer.models import File, BaseImage
 from filer.server.views import server
 
 try:
@@ -45,19 +45,21 @@ def url_reverse(request):
     :param request: Request object
     :return: The reversed path
     """
-    if request.method in ('GET', 'POST'): 
-        data = getattr(request, request.method) 
-        url_name = data.get('url_name') 
-        try: 
-            path = urls.reverse(url_name, args=data.getlist('args')) 
+    if request.method in ('GET', 'POST'):
+        data = getattr(request, request.method)
+        url_name = data.get('url_name')
+        try:
+            path = urls.reverse(url_name, args=data.getlist('args'))
             (view_func, args, kwargs) = urls.resolve(path)
             return http.HttpResponse(path, content_type='text/plain')
-        except urls.NoReverseMatch: 
+        except urls.NoReverseMatch:
             return http.HttpResponse('Error', content_type='text/plain')
     return http.HttpResponseNotAllowed(('GET', 'POST'))
 
 
 def _return_thumbnail(image, thumb_options=None, width=None, height=None):
+    if not isinstance(image, BaseImage):
+        return
     thumbnail_options = {}
     if thumb_options is not None:
         thumbnail_options = ThumbnailOption.objects.get(pk=thumb_options).as_dict
@@ -96,11 +98,23 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
     if thumb:
         image = thumb
         url = image.url
-    data = {
-        'url': url,
-        'width': image.width,
-        'height': image.height,
-    }
+        data = {
+            'url': url,
+            'width': image.width,
+            'height': image.height,
+        }
+    else:
+        try:
+            url = image.icons['48']
+            size = 48
+        except KeyError:
+            url = list(image.icons.values())[0]
+            size = list(image.icons.keys())[0]
+        data = {
+            'url': url,
+            'width': size,
+            'height': size,
+        }
     return http.HttpResponse(json.dumps(data), content_type='application/json')
 
 
