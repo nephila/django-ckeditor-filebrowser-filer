@@ -51,3 +51,4 @@ requirements-test.txt
 
 # OS
 .DS_Store
+local.sqlite
