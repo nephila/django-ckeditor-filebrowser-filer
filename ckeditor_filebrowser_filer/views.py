@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import mimetypes
 from distutils.version import LooseVersion
 
 from django import http
@@ -133,6 +134,9 @@ def serve_image(request, image_id, thumb_options=None, width=None, height=None):
         url = image.url
     thumb = _return_thumbnail(image, thumb_options, width, height)
     if thumb:
-        return server.serve(request, file_obj=thumb, save_as=False)
+        # hack for compatibility with filer 2.2
+        mime_type, _ = mimetypes.guess_type(thumb.url)
+        setattr(thumb, 'mime_type', mime_type)
+        return server.serve(request, thumb, save_as=False)
     else:
         return HttpResponseRedirect(url)
