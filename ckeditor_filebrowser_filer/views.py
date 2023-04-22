@@ -1,37 +1,19 @@
-# -*- coding: utf-8 -*-
 import json
-from distutils.version import LooseVersion
 
-from django import http
+from django import http, urls
 from django.conf import settings
-from django import urls
 from django.http import HttpResponseRedirect
-
-from filer.models import File
+from filer.models import File, ThumbnailOption
 from filer.server.views import server
-
-try:
-    from filer.models import ThumbnailOption
-except ImportError:
-    from cmsplugin_filer_image.models import ThumbnailOption
 
 
 def filer_version(request):
-    import filer
-    filer_legacy = LooseVersion(filer.__version__) < LooseVersion('1.1')
-    filer_11 = not filer_legacy and LooseVersion(filer.__version__) < LooseVersion('1.2')
-    filer_12 = LooseVersion(filer.__version__) >= LooseVersion('1.2')
-    if filer_11:
-        version = '1.1'
-    elif filer_12:
-        version = '1.2'
-    else:
-        version = '1.0'
+    version = "1.2"
     return http.HttpResponse(version)
 
 
 def get_setting(request, setting):
-    setting = 'CKEDITOR_FILEBROWSER_{}'.format(setting).upper()
+    setting = "CKEDITOR_FILEBROWSER_{}".format(setting).upper()
     try:
         return http.HttpResponse(int(getattr(settings, setting, False)))
     except ValueError:
@@ -45,16 +27,16 @@ def url_reverse(request):
     :param request: Request object
     :return: The reversed path
     """
-    if request.method in ('GET', 'POST'): 
-        data = getattr(request, request.method) 
-        url_name = data.get('url_name') 
-        try: 
-            path = urls.reverse(url_name, args=data.getlist('args')) 
+    if request.method in ("GET", "POST"):
+        data = getattr(request, request.method)
+        url_name = data.get("url_name")
+        try:
+            path = urls.reverse(url_name, args=data.getlist("args"))
             (view_func, args, kwargs) = urls.resolve(path)
-            return http.HttpResponse(path, content_type='text/plain')
-        except urls.NoReverseMatch: 
-            return http.HttpResponse('Error', content_type='text/plain')
-    return http.HttpResponseNotAllowed(('GET', 'POST'))
+            return http.HttpResponse(path, content_type="text/plain")
+        except urls.NoReverseMatch:
+            return http.HttpResponse("Error", content_type="text/plain")
+    return http.HttpResponseNotAllowed(("GET", "POST"))
 
 
 def _return_thumbnail(image, thumb_options=None, width=None, height=None):
@@ -67,7 +49,7 @@ def _return_thumbnail(image, thumb_options=None, width=None, height=None):
         height = int(height)
 
         size = (width, height)
-        thumbnail_options.update({'size': size})
+        thumbnail_options.update({"size": size})
 
     if thumbnail_options != {}:
         thumbnailer = image.easy_thumbnails_thumbnailer
@@ -88,7 +70,7 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
     :return: JSON serialized URL components ('url', 'width', 'height')
     """
     image = File.objects.get(pk=image_id)
-    if getattr(image, 'canonical_url', None):
+    if getattr(image, "canonical_url", None):
         url = image.canonical_url
     else:
         url = image.url
@@ -97,11 +79,11 @@ def url_image(request, image_id, thumb_options=None, width=None, height=None):
         image = thumb
         url = image.url
     data = {
-        'url': url,
-        'width': image.width,
-        'height': image.height,
+        "url": url,
+        "width": image.width,
+        "height": image.height,
     }
-    return http.HttpResponse(json.dumps(data), content_type='application/json')
+    return http.HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def thumbnail_options(request):
@@ -111,7 +93,7 @@ def thumbnail_options(request):
     :param request: Request object
     :return: JSON serialized ThumbnailOption
     """
-    response_data = [{'id': opt.pk, 'name': opt.name} for opt in ThumbnailOption.objects.all()]
+    response_data = [{"id": opt.pk, "name": opt.name} for opt in ThumbnailOption.objects.all()]
     return http.HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -127,7 +109,7 @@ def serve_image(request, image_id, thumb_options=None, width=None, height=None):
     :return: JSON serialized URL components ('url', 'width', 'height')
     """
     image = File.objects.get(pk=image_id)
-    if getattr(image, 'canonical_url', None):
+    if getattr(image, "canonical_url", None):
         url = image.canonical_url
     else:
         url = image.url

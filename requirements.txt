@@ -1,2 +1,2 @@
 -e .
-wheel==0.22.0
+wheel
