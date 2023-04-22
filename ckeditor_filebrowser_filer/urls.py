@@ -1,22 +1,32 @@
-# -*- coding: utf-8 -*-
-from django.conf.urls import url
-try:
-    from django.conf.urls import patterns
-except:
-    def patterns(prefix, *urls):
-        return urls
+from django.urls import path, re_path
 
-from .views import *
+from .views import filer_version, get_setting, serve_image, thumbnail_options, url_image, url_reverse
 
-urlpatterns = patterns('',
-    url(r'version/$', filer_version, name='filer_version'),
-    url(r'setting/(?P<setting>\w+)/$', get_setting, name='get_setting'),
-    url(r'url_reverse/$', url_reverse, name='js_url_reverse'),
-    url(r'url_image/(?P<image_id>\d+)/$', url_image, name='url_image'),
-    url(r'url_image/(?P<image_id>\d+)/(?P<thumb_options>\d+)/$', url_image, name='url_image'),
-    url(r'url_image/(?P<image_id>\d+)/(?P<width>\d+)/(?P<height>\d+)/$', url_image, name='url_image'),
-    url(r'serve/(?P<image_id>\d+)/$', serve_image, name='serve_image'),
-    url(r'serve/(?P<image_id>\d+)/(?P<thumb_options>\d+)/$', serve_image, name='serve_image'),
-    url(r'serve/(?P<image_id>\d+)/(?P<width>\d+)/(?P<height>\d+)/$', serve_image, name='serve_image'),
-    url(r'thumbnail_options/$', thumbnail_options, name='thumbnail_options'),
-)
+urlpatterns = [
+    path("version/", filer_version, name="filer_version"),
+    re_path(r"setting/(?P<setting>\w+)/$", get_setting, name="get_setting"),
+    path("url_reverse/", url_reverse, name="js_url_reverse"),
+    path("url_image/<int:image_id>/", url_image, name="url_image"),
+    path(
+        "url_image/<int:image_id>/<int:thumb_options>/",
+        url_image,
+        name="url_image",
+    ),
+    path(
+        "url_image/<int:image_id>/<int:width>/<int:height>/",
+        url_image,
+        name="url_image",
+    ),
+    path("serve/<int:image_id>/", serve_image, name="serve_image"),
+    path(
+        "serve/<int:image_id>/<int:thumb_options>/",
+        serve_image,
+        name="serve_image",
+    ),
+    path(
+        "serve/<int:image_id>/<int:width>/<int:height>/",
+        serve_image,
+        name="serve_image",
+    ),
+    path("thumbnail_options/", thumbnail_options, name="thumbnail_options"),
+]
