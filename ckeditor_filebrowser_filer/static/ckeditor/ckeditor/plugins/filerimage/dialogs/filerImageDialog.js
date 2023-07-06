@@ -40,7 +40,6 @@
 						'&nbsp;<span id="id_image' + idSuffix + '_description_txt" class="description_text"></span>' +
 						'<a onclick="return showRelatedObjectLookupPopup(this);" title="' + lang.browse +'" id="lookup_id_image' + idSuffix + '" ' +
 							'data-id="id_image' + idSuffix + '" class="related-lookup js-related-lookup" href="' + base_admin + '/filer/folder/last/?' + picker+ '">' +
-							'<img width="16" height="16" alt="' + lang.browse +'" src="' + base_static + '/admin/img/icon_searchbox.png">' +
 						'</a>' +
 						'<img width="10" height="10" title="' + lang.clear + '" alt="' + lang.clear + '" src="' + base_static + '/admin/img/icon_deletelink.gif" id="id_image' + idSuffix + '_clear">' +
 						'<br><input type="hidden" id="id_image' + idSuffix + '" data-id="id_image' + idSuffix + '" name="image" class="vForeignKeyRawIdAdminField">' +
@@ -135,20 +134,8 @@
 		var extra_items = [
 			{
 				type: 'hbox',
-				widths: [ '33%', '33%', '33%' ],
+				widths: [ '50%', '50%' ],
 				children: [
-					{
-						type: 'checkbox',
-						id: 'use_original_image',
-						label: lang.useOriginal,
-						setup: function (element) {
-							this.setValue(element.getAttribute('original_image'));
-						},
-						// Called by the main commitContent call on dialog confirmation.
-						commit: function (element) {
-							element.setAttribute('original_image', this.getValue());
-						}
-					},
 					{
 						type: 'text',
 						id: 'width',
@@ -158,7 +145,6 @@
 								var ratio = this.getValue() / imageWidth;   // get ratio for scaling image
 								dialog.getContentElement('tab-basic', 'height').setValue(Math.ceil(imageHeight * ratio));
 							}
-
 							//getImageUrl();
 						},
 						setup: function (element) {
@@ -187,6 +173,23 @@
 				]
 			},
 			{
+				type: 'hbox',
+				widths: [ '100%'],
+				children: [
+					{
+						type: 'checkbox',
+						id: 'use_original_image',
+						label: lang.useOriginal,
+						setup: function (element) {
+							this.setValue(element.getAttribute('original_image'));
+						},
+						// Called by the main commitContent call on dialog confirmation.
+						commit: function (element) {
+							element.setAttribute('original_image', this.getValue());
+						}
+					}
+				]
+			},			{
 				type: 'hbox',
 				widths: [ '33%', '33%', '33%' ],
 				children: [
