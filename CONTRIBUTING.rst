@@ -66,7 +66,7 @@ Ready to contribute? Here's how to set up `django-ckeditor-filebrowser-filer` fo
 
     $ mkvirtualenv django-ckeditor-filebrowser-filer
     $ cd django-ckeditor-filebrowser-filer/
-    $ python setup.py develop
+    $ python3 -m pip install -e .
 
 4. Create a branch for local development::
 
@@ -78,7 +78,7 @@ Now you can make your changes locally.
 tests, including testing other Python versions with tox::
 
     $ flake8 ckeditor_filebrowser_filer tests
-    $ python setup.py test
+    $ python3 setup.py test
     $ tox
 
 To get flake8 and tox, just pip install them into your virtualenv.
@@ -109,4 +109,4 @@ Tips
 
 To run a subset of tests::
 
-    $ python -m unittest tests.test_ckeditor_filebrowser_filer
+    $ python3 -m unittest tests.test_ckeditor_filebrowser_filer
