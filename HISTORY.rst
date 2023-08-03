@@ -3,6 +3,12 @@
 History
 -------
 
+0.4.0 (2023-08-03)
+++++++++++++++++++
+
+* Added compatibility with Django 4.2
+* Drop support for Django<3.2
+
 0.3.0 (2019-03-23)
 ++++++++++++++++++
 

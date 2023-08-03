@@ -9,11 +9,11 @@ A django-filer based CKEditor filebrowser
 Supported versions
 ==================
 
-Python: 2.7, 3.5, 3.6, 2.7
+Python: 3.7 to 3.11
 
-Django: 1.11 to 2.1
+Django: 3.2 to 4.2
 
-django-filer: 1.2 and above
+django-filer: 2.0 and above
 
 Documentation
 -------------
