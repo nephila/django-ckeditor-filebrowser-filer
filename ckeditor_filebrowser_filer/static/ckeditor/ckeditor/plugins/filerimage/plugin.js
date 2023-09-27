@@ -40,7 +40,7 @@
                     editor.base_admin = data.replace(/\/$/, "");
             });
 
-            jQuery.get('/filebrowser_filer/filer_version/', { }, function(data) {
+            jQuery.get('/filebrowser_filer/version/', { }, function(data) {
                 editor.filer_version = data;
                 if(data == '1.1' || data == '1.2') {
                     CKEDITOR.scriptLoader.load( that.path + '../../../../filer/js/addons/popup_handling.js' );
