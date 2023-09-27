@@ -6,6 +6,12 @@ build-backend = "setuptools.build_meta"
 line-length = 119
 target-version = ["py310"]
 
+[tool.towncrier]
+package = "ckeditor_filebrowser_filer"
+directory = "changes"
+filename = "HISTORY.rst"
+title_format = "{version} ({project_date})"
+
 [tool.interrogate]
 ignore-init-method = true
 ignore-init-module = true
@@ -47,7 +53,7 @@ commit = true
 message = "Release {new_version}"
 commit_args = "--no-verify"
 tag = false
-current_version = "0.5.0.dev1"
+current_version = "0.5.0"
 parse = """(?x)
     (?P<major>[0-9]+)
     \\.(?P<minor>[0-9]+)
