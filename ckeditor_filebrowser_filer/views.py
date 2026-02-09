@@ -32,7 +32,7 @@ def url_reverse(request):
         url_name = data.get("url_name")
         try:
             path = urls.reverse(url_name, args=data.getlist("args"))
-            (view_func, args, kwargs) = urls.resolve(path)
+            view_func, args, kwargs = urls.resolve(path)
             return http.HttpResponse(path, content_type="text/plain")
         except urls.NoReverseMatch:
             return http.HttpResponse("Error", content_type="text/plain")
