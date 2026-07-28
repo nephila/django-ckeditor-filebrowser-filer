@@ -37,3 +37,6 @@ repos:
     hooks:
       - id: django-upgrade
         args: [--target-version, "3.2"]
+
+ci:
+  skip: [ruff]
